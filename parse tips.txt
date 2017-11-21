@@ -1,0 +1,6 @@
+conect parse to android studio
+
+create a new app in parse's site
+copy client key and app id to StartatApplication in Android Studio
+
+

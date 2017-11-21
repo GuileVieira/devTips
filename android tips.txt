@@ -1,0 +1,97 @@
+SLIDING TABS=========================
+copy SlidingTabStrip and SlidingTabLayout to android project
+
+in gradle app add:
+	 compile 'com.android.support:support-v4:23.0.0'
+
+its necessary type the components in the layout file
+	 <android.support.v4.view.ViwerPager
+	 	width match_parent
+	 	height 0
+	 	weight 1
+	 />
+
+	 <SlidingTabLayout
+
+	 layoutgravity - bottom
+	 />
+
+
+
+	 in the class instanciate the elements.
+
+	create a new class with adpter for fragments that 
+	extends FragmenteStatePagerAdapter. In his construct method receive a FragmentManager and the context.
+	create the Fragments
+	costume him.
+
+	in the method getItem of adapter use switch to choose wich
+	fragent must be called.
+	.getPageTitle //get the position and return the name inside a array
+	(USE support.V4)
+
+
+	set the viewPager.setAdaper( adapter );
+	slidingtablayout.setViewPager( viewPager);
+
+slidingTabLayout.setCustomTabView( layoutCustom, idCOmponents);
+
+		.setDistributeEvenly(true)//SAME SIZE TO TABS
+		.setSelectedIndicatorColors ( ContextCompat.getcolor(this, R.color.chooseOne)); //TO CHANGE THE SELECTED's COLOR
+
+ADD ICON ON THE TABS
+	 in adapter.class 
+	 int array {R.drawable.iconName1,..., R.drawable.iconNameN }
+
+	 Drawable namedrawable = ContextCompat.getDrawable( this.context, array[ position ]);
+	 namedrawable.setBounds( 0,0,sizetoincon,sizetoicon );
+	 imageSpan nameImgSpan = new ImageSpan( namedrawable );
+
+	 SpannableString spannableString = new SpannableString(" ");
+	 spannableStrig.setSpan(nameimgspan, 0, spannableString.lenght(), Spanned.SPAN_EXCLUSIVE_EXLCUSIVE) //ALLOWS ONLY ICONS 
+
+	 imageSpan// send image on texts
+
+	 return spannableString;
+
+
+
+	 ///// TO MAKE icons with proportional size double scale = this.context.getResources().getDisplayMetrics().density;
+	 sizetoicon = (int) ( 36* scale ); 
+
+
+
+==========================================
+SHARING PHOTOS on Parse
+
+//to access galery phone
+Intent intent = new Intent(Intent.action_pick, MediaStore.Images.Media.EXTERNAL_CONTENT_URI); 
+startActivityForResult(intent, 1);
+
+override onActivityResult
+requestcode ==1 resultcode == RESULT_OK data != null
+
+Uri placeImgSelected = data.getData(); //place of resource
+
+try
+bitmap img = MediaStore.Images.Media.getBitmap( getContentResolver, placeImgSelected );
+ByteArrayOutputStream stream = new ByteArrayOutputStream();
+img.compress(Bitmap.CompressFormat.PNG, 100, stream);//0-100
+
+byte[] bytearray = stream.toByteArray();
+
+ParseFile file = new ParseFile(nameImG +"img.png", bytearray);
+
+ParseObject parseObj = new ParseObject("image");
+parseObj.put("username"/* name collum*/, ParseUser.getCurrentUser().getUsername()) //USE objectID
+parseObj.put("img", file);
+
+catch
+
+diferents names in the file
+	SimpleDataFormat dateformat = new SimpleDateFormat("ddmmaaaahhss");
+	string nameImG = dateformat.format( new Date() );
+
+its necessary permissions about READ_EXTERNAL_STORAGE 
+
+

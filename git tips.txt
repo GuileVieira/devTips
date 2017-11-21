@@ -1,0 +1,14 @@
+create new local repository======
+git init
+
+clone a remote repository========
+git clone url
+
+move to stage area===============
+git add name.file 
+ or 
+git add .
+ for all
+
+commit===========================
+git commit -am "id message"
